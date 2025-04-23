@@ -4,6 +4,16 @@
  * Versão: 3.1.0
  */
 require_once __DIR__ . '/../config/config.php';
+
+// Obtém o número total de velinhas acesas
+$statsFile = DATA_PATH . '/../data/stats.json';
+$totalVelinhas = 0;
+
+if (file_exists($statsFile)) {
+    $stats = json_decode(file_get_contents($statsFile), true);
+    $totalVelinhas = isset($stats['ultimo_id']) ? (int)$stats['ultimo_id'] : 0;
+}
+
 ?>
 <!-- Footer -->
 <footer class="text-light py-4" id="footer">
@@ -13,8 +23,13 @@ require_once __DIR__ . '/../config/config.php';
             <br>Proibido: Acender velas que incitem ódio, violência, racismo ou qualquer forma de discriminação. Qualquer uso indevido da plataforma poderá resultar em bloqueio do acesso.
             <br>Aproveite este espaço com respeito, amor e harmonia. Vamos manter a luz acesa de maneira positiva, espalhando boas energias para todos.</small>
         </p>
-        <p class="mb-1">&copy; 2025 Velinhas.com.br</p>
-        <span class="badge text-bg-light mb-1">Versão: <?php echo VERSION; ?></span>
+        <!-- Contador de velinhas -->
+        <div class="mt-2 mb-2">
+            <span class="badge bg-warning text-dark">
+                <i class="bi bi-fire"></i> Total de velinhas acesas: <?php echo number_format($totalVelinhas, 0, ',', '.'); ?>
+            </span>
+        </div>
+        <span class="badge text-bg-light mb-2">Versão: <?php echo VERSION; ?></span>
         <div>
             <span class="me-2">Criado com fé por Gabriel Gortan</span>
             <a href="https://www.linkedin.com/in/gabrielgortan" target="_blank" class="text-decoration-none me-2">
@@ -24,6 +39,7 @@ require_once __DIR__ . '/../config/config.php';
                 <i class="bi bi-github" style="color: white;"></i>
             </a>
         </div>
+        <p class="mb-2">&copy; 2025 Velinhas.com.br</p>
     </div>
 </footer>
 

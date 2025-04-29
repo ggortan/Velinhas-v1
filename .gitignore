@@ -2,3 +2,5 @@ config.php
 keys.php
 
 .htaccess
+
+/old/

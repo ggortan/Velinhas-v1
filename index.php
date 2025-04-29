@@ -1,7 +1,7 @@
 <?php
 /**
  * Velinhas - Página principal
- * Versão: 3.6.0
+ * Versão: 3.1.0
  */
 // Iniciar a sessão se ainda não foi iniciada
 if (session_status() == PHP_SESSION_NONE) {
@@ -32,7 +32,7 @@ require_once __DIR__ . '/includes/head.php';
         <input type="hidden" id="global_csrf_token" name="csrf_token" value="<?php echo $csrfToken; ?>">
 
         <div class="alert alert-vela mb-4 mt-1" role="alert">
-            <strong>Novidade:</strong> Agora você pode reagir com 🙏 às velas dos outros! Acenda a sua velinha e ore suas preces 🕯
+            <strong>Novidade:</strong> Agora você pode compartilhar suas Velinhas! Acenda a sua e compartilhe suas orações 🙏
         </div>
         
         <div id="alert-container"></div>
@@ -45,14 +45,14 @@ require_once __DIR__ . '/includes/head.php';
                 <small>Saiba mais sobre Velinhas Virtuais</small>
             </a>
         </div>
-        
-        <?php include_once 'api/banners.php'; ?>
 
         
         <div class="card mt-4 mb-4 capela-card" id="capela">
             <div class="card-header d-flex justify-content-between align-items-center capela-card-header">
                 <span class="capela-card-title">Capela de velas</span>
-                
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#doacaoModal">
+                    <i class="bi bi-heart-fill"></i> Ajudar o Velinhas
+                 </button>
             </div>
             
             <div class="card-body capela-card-body">
@@ -73,6 +73,7 @@ require_once __DIR__ . '/includes/head.php';
         </div>
         
         <?php include BASE_PATH . '/api/versiculo.php'; ?>
+        <?php include_once 'api/banners.php'; ?>
         
     </div>
     
@@ -184,7 +185,6 @@ require_once __DIR__ . '/includes/head.php';
             </div>
         </div>
     </div>
-    
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Página de Changelog do Velinhas
- * Versão: 3.6.0
+ * Versão: 3.1.0
  */
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -43,6 +43,29 @@ require_once __DIR__ . '/includes/head.php';
         <h1 class="text-center my-4">Histórico de Atualizações 🕯</h1>
         
         <div class="container py-3">
+            <div class="changelog-item">
+                <div class="version-header">
+                    <h4>Versão 3.7.1</h4>
+                </div>
+                <ul>
+                    <li>
+                        Implementação da página individual para velas
+                        <span class="badge bg-success feature-tag">Novo Recurso</span>
+                    </li>
+                    <li>
+                        Sistema de compartilhamento
+                        <span class="badge bg-success feature-tag">Novo Recurso</span>
+                    </li>
+                    <li>
+                        Melhorias no sistema de reções
+                        <span class="badge bg-info feature-tag">Otimização</span>
+                    </li>
+                    <li>
+                        Melhorias no sistema de cache
+                        <span class="badge bg-info feature-tag">Otimização</span>
+                    </li>
+                </ul>
+            </div>
             <div class="changelog-item">
                 <div class="version-header">
                     <h4>Versão 3.6.0</h4>

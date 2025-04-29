@@ -1,0 +1,54 @@
+[
+    {
+        "id": 187,
+        "nome": "Para esta semana aben\u00e7oada",
+        "duracao": "1",
+        "personalizacao": "vela1",
+        "timestamp": 1745321005,
+        "reacoes": 5,
+        "dataAcesa": "22\/04\/2025 08:23",
+        "dataExpira": "23\/04\/2025 08:23",
+        "expirada": true,
+        "dataExpiracaoReal": 1745850857,
+        "dataExpiracaoFormatada": "28\/04\/2025 11:34"
+    },
+    {
+        "id": 748,
+        "nome": "M\u00e3e",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745842366,
+        "reacoes": 0,
+        "dataAcesa": "28\/04\/2025 09:12",
+        "dataExpira": "29\/04\/2025 09:12",
+        "expirada": true,
+        "dataExpiracaoReal": 1745928823,
+        "dataExpiracaoFormatada": "29\/04\/2025 09:13"
+    },
+    {
+        "id": 749,
+        "nome": "Minha Fam\u00edlia",
+        "duracao": "1",
+        "personalizacao": "#1a276b",
+        "timestamp": 1745842502,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 09:15",
+        "dataExpira": "29\/04\/2025 09:15",
+        "expirada": true,
+        "dataExpiracaoReal": 1745929114,
+        "dataExpiracaoFormatada": "29\/04\/2025 09:18"
+    },
+    {
+        "id": 751,
+        "nome": "Ao Dev Gortan",
+        "duracao": "1",
+        "personalizacao": "vela2",
+        "timestamp": 1745842730,
+        "reacoes": 4,
+        "dataAcesa": "28\/04\/2025 09:18",
+        "dataExpira": "29\/04\/2025 09:18",
+        "expirada": true,
+        "dataExpiracaoReal": 1745929162,
+        "dataExpiracaoFormatada": "29\/04\/2025 09:19"
+    }
+]

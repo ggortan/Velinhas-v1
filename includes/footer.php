@@ -16,8 +16,10 @@ if (file_exists($statsFile)) {
 
 ?>
 <!-- Footer -->
+<?php include_once BASE_PATH . '/api/pix.php'; ?>
 <footer class="text-light py-4" id="footer">
     <div class="container text-center">
+        
         <h5>Sobre o Velinhas</h5>
         <p><small>Este é um projeto sem fins lucrativos, criado com a intenção de promover momentos de reflexão, paz e espiritualidade. Pedimos que usem a ferramenta com consciência e respeito, lembrando sempre que é importante não abusar da criação de velas, pois <mark>Deus está de olho em nossas ações.</mark>
             <br>Proibido: Acender velas que incitem ódio, violência, racismo ou qualquer forma de discriminação. Qualquer uso indevido da plataforma poderá resultar em bloqueio do acesso.
@@ -51,6 +53,8 @@ if (file_exists($statsFile)) {
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/script.js?v=<?php echo VERSION; ?>"></script>
+<script src="/assets/js/reacao-system.js?v=<?php echo VERSION; ?>"></script>
+
 
 <!-- Script para verificação de conexão -->
 <script>

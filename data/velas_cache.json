@@ -1,0 +1,212 @@
+[
+    {
+        "id": 188,
+        "nome": "Pai do c\u00e9u",
+        "duracao": "7",
+        "personalizacao": "vela2",
+        "timestamp": 1745345545,
+        "reacoes": 4,
+        "dataAcesa": "22\/04\/2025 15:12",
+        "dataExpira": "29\/04\/2025 15:12"
+    },
+    {
+        "id": 189,
+        "nome": "A semana de provas",
+        "duracao": "7",
+        "personalizacao": "vela3",
+        "timestamp": 1745347967,
+        "reacoes": 4,
+        "dataAcesa": "22\/04\/2025 15:52",
+        "dataExpira": "29\/04\/2025 15:52"
+    },
+    {
+        "id": 191,
+        "nome": "Combinar ingredientes reduz nutri\u00e7\u00e3o",
+        "duracao": "7",
+        "personalizacao": "vela3",
+        "timestamp": 1745414494,
+        "reacoes": 2,
+        "dataAcesa": "23\/04\/2025 10:21",
+        "dataExpira": "30\/04\/2025 10:21"
+    },
+    {
+        "id": 742,
+        "nome": "Para nossa nova casa",
+        "duracao": "7",
+        "personalizacao": "vela0",
+        "timestamp": 1745585029,
+        "reacoes": 2,
+        "dataAcesa": "25\/04\/2025 09:43",
+        "dataExpira": "02\/05\/2025 09:43"
+    },
+    {
+        "id": 743,
+        "nome": "minha filha J\u00falia",
+        "duracao": "7",
+        "personalizacao": "vela1",
+        "timestamp": 1745585061,
+        "reacoes": 2,
+        "dataAcesa": "25\/04\/2025 09:44",
+        "dataExpira": "02\/05\/2025 09:44"
+    },
+    {
+        "id": 746,
+        "nome": "Por mais caracteres no velinhas, pois no",
+        "duracao": "7",
+        "personalizacao": "vela1",
+        "timestamp": 1745611791,
+        "reacoes": 3,
+        "dataAcesa": "25\/04\/2025 17:09",
+        "dataExpira": "02\/05\/2025 17:09"
+    },
+    {
+        "id": 750,
+        "nome": "Minha Fam\u00edlia",
+        "duracao": "7",
+        "personalizacao": "vela3",
+        "timestamp": 1745842547,
+        "reacoes": 0,
+        "dataAcesa": "28\/04\/2025 09:15",
+        "dataExpira": "05\/05\/2025 09:15"
+    },
+    {
+        "id": 752,
+        "nome": "Minha irm\u00e3",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745843904,
+        "reacoes": 1,
+        "dataAcesa": "28\/04\/2025 09:38",
+        "dataExpira": "29\/04\/2025 09:38"
+    },
+    {
+        "id": 753,
+        "nome": "Joao",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745844322,
+        "reacoes": 0,
+        "dataAcesa": "28\/04\/2025 09:45",
+        "dataExpira": "29\/04\/2025 09:45"
+    },
+    {
+        "id": 754,
+        "nome": "A esta semana aben\u00e7oada!",
+        "duracao": "7",
+        "personalizacao": "vela2",
+        "timestamp": 1745844615,
+        "reacoes": 5,
+        "dataAcesa": "28\/04\/2025 09:50",
+        "dataExpira": "05\/05\/2025 09:50"
+    },
+    {
+        "id": 755,
+        "nome": "Nosso Deus",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745844860,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 09:54",
+        "dataExpira": "29\/04\/2025 09:54"
+    },
+    {
+        "id": 756,
+        "nome": "Ao grande amor da minha vida \ud83e\udde1",
+        "duracao": "1",
+        "personalizacao": "#fad1ff",
+        "timestamp": 1745851141,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 11:39",
+        "dataExpira": "29\/04\/2025 11:39"
+    },
+    {
+        "id": 757,
+        "nome": "laysa",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745851411,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 11:43",
+        "dataExpira": "29\/04\/2025 11:43"
+    },
+    {
+        "id": 758,
+        "nome": "meu portuguesinho",
+        "duracao": "7",
+        "personalizacao": "#ff0000",
+        "timestamp": 1745851544,
+        "reacoes": 1,
+        "dataAcesa": "28\/04\/2025 11:45",
+        "dataExpira": "05\/05\/2025 11:45"
+    },
+    {
+        "id": 759,
+        "nome": "LAYSA",
+        "duracao": "7",
+        "personalizacao": "vela1",
+        "timestamp": 1745857275,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 13:21",
+        "dataExpira": "05\/05\/2025 13:21"
+    },
+    {
+        "id": 760,
+        "nome": "Pai nosso",
+        "duracao": "1",
+        "personalizacao": "vela3",
+        "timestamp": 1745858916,
+        "reacoes": 0,
+        "dataAcesa": "28\/04\/2025 13:48",
+        "dataExpira": "29\/04\/2025 13:48"
+    },
+    {
+        "id": 761,
+        "nome": "Dona Cida",
+        "duracao": "1",
+        "personalizacao": "vela0",
+        "timestamp": 1745859129,
+        "reacoes": 2,
+        "dataAcesa": "28\/04\/2025 13:52",
+        "dataExpira": "29\/04\/2025 13:52"
+    },
+    {
+        "id": 762,
+        "nome": "Pela alma do Papa Francisco ",
+        "duracao": "1",
+        "personalizacao": "#1a8399",
+        "timestamp": 1745861563,
+        "reacoes": 3,
+        "dataAcesa": "28\/04\/2025 14:32",
+        "dataExpira": "29\/04\/2025 14:32"
+    },
+    {
+        "id": 763,
+        "nome": "4:20",
+        "duracao": "7",
+        "personalizacao": "#00ff00",
+        "timestamp": 1745873099,
+        "reacoes": 0,
+        "dataAcesa": "28\/04\/2025 17:44",
+        "dataExpira": "05\/05\/2025 17:44"
+    },
+    {
+        "id": 764,
+        "nome": "Tuchuco",
+        "duracao": "7",
+        "personalizacao": "vela0",
+        "timestamp": 1745875764,
+        "reacoes": 1,
+        "dataAcesa": "28\/04\/2025 18:29",
+        "dataExpira": "05\/05\/2025 18:29"
+    },
+    {
+        "id": 765,
+        "nome": "Feriado Dia do Trabalhador",
+        "duracao": "1",
+        "personalizacao": "vela3",
+        "timestamp": 1745923921,
+        "reacoes": 2,
+        "dataAcesa": "29\/04\/2025 07:52",
+        "dataExpira": "30\/04\/2025 07:52"
+    }
+]

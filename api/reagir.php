@@ -1,6 +1,7 @@
 <?php
 /**
  * API para registrar reações às velas
+ * Versão corrigida para garantir o funcionamento consistente
  */
 session_start();
 header('Content-Type: application/json');
@@ -12,14 +13,6 @@ $data = json_decode(file_get_contents('php://input'), true);
 $idVela = $data['id'] ?? null;
 $csrfToken = $data['csrf_token'] ?? null;
 
-// if (!verificarCsrfToken($csrfToken)) {
-//     echo json_encode([
-//         "status" => "error", 
-//         "message" => "Erro de validação do token de segurança."
-//     ]);
-//     exit;
-// }
-
 // Verifica se o ID da vela foi fornecido
 if (!$idVela) {
     echo json_encode([
@@ -28,52 +21,6 @@ if (!$idVela) {
     ]);
     exit;
 }
-
-// Recupera o IP do usuário
-//$ip = $_SERVER['REMOTE_ADDR'];
-
-// Verifica se o usuário está banido
-//$tempoBan = verificarBanimento($ip, REACTION_SPAM_FILE);
-//if ($tempoBan !== false) {
-//    echo json_encode([
-//        "status" => "error", 
-//        "message" => "Você foi banido por excesso de reações. Tente novamente em {$tempoBan} segundos."
-//    ]);
-//    exit;
-//}
-
-// Carrega o arquivo de controle de spam
-//$spamData = loadJsonFile(REACTION_SPAM_FILE);
-
-// Verifica o histórico de reações do IP
-//$timestamp = time();
-//if (isset($spamData[$ip])) {
-//    // Filtra reações anteriores dentro da janela de tempo
-//    $recentReactions = array_filter($spamData[$ip]['reactions'], function ($reactionTime) use ($timestamp) {
-//        return ($timestamp - $reactionTime) <= REACTION_WINDOW;
-//    });
-//
-//    // Se o número de reações exceder o limite, bloqueia o IP
-//    if (count($recentReactions) >= MAX_REACTIONS) {
-//        $spamData[$ip]['ban_until'] = $timestamp + REACTION_BAN_DURATION;
-//        saveJsonFile(REACTION_SPAM_FILE, $spamData);
-//        
-//        echo json_encode([
-//            "status" => "error", 
-//            "message" => "Você fez muitas reações em pouco tempo! Você foi temporariamente banido."
-//        ]);
-//        exit;
-//    }
-//
-//    // Atualiza o histórico de reações recentes
-//    $spamData[$ip]['reactions'] = array_merge($recentReactions, [$timestamp]);
-//} else {
-//    // Caso o IP não tenha registros anteriores, inicializa com a reação atual
-//    $spamData[$ip] = [
-//        'reactions' => [$timestamp],
-//        'ban_until' => 0  // Sem banimento por padrão
-//    ];
-//}
 
 // Verifica se o usuário já reagiu a esta vela (controle por cookie)
 $reacaoCookie = isset($_COOKIE['reacao_velas']) ? json_decode($_COOKIE['reacao_velas'], true) : [];
@@ -89,10 +36,18 @@ if (is_array($reacaoCookie) && in_array($idVela, $reacaoCookie)) {
 // Carrega as velas e encontra a vela solicitada
 $velas = loadJsonFile(VELAS_FILE);
 $velaEncontrada = false;
+$reacaoAtual = 0;
 
 foreach ($velas as &$vela) {
     if ($vela['id'] == $idVela) {
-        $vela['reacoes'] = isset($vela['reacoes']) ? $vela['reacoes'] + 1 : 1;
+        // Garante que reacoes seja um número válido
+        if (!isset($vela['reacoes']) || !is_numeric($vela['reacoes'])) {
+            $vela['reacoes'] = 0;
+        }
+        
+        // Incrementa o contador
+        $vela['reacoes'] = (int)$vela['reacoes'] + 1;
+        $reacaoAtual = $vela['reacoes'];
         $velaEncontrada = true;
         break;
     }
@@ -106,13 +61,21 @@ if (!$velaEncontrada) {
     exit;
 }
 
-// Salva as atualizações
-saveJsonFile(VELAS_FILE, $velas);
-saveJsonFile(REACTION_SPAM_FILE, $spamData);
+// Salva as atualizações no arquivo de velas
+if (!saveJsonFile(VELAS_FILE, $velas)) {
+    error_log("Erro ao salvar arquivo de velas após reação. ID: $idVela");
+    echo json_encode([
+        "status" => "error", 
+        "message" => "Erro ao salvar sua reação. Tente novamente."
+    ]);
+    exit;
+}
 
-// Invalidar o cache
+// Invalidar o cache para garantir que as alterações sejam visíveis
 if (file_exists(CACHE_FILE)) {
-    unlink(CACHE_FILE);
+    if (!unlink(CACHE_FILE)) {
+        error_log("Erro ao excluir arquivo de cache após reação");
+    }
 }
 
 // Atualiza o cookie do usuário
@@ -122,5 +85,5 @@ setcookie('reacao_velas', json_encode($reacaoCookie), time() + (365 * 24 * 60 * 
 echo json_encode([
     "status" => "success", 
     "message" => "Reação adicionada com sucesso!", 
-    "reacoes" => $vela['reacoes']
+    "reacoes" => $reacaoAtual
 ]);

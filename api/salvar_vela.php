@@ -136,10 +136,15 @@ saveJsonFile(VELAS_FILE, $velas);
 saveJsonFile(STATS_FILE, $stats);
 saveJsonFile(SPAM_FILE, $spamData);
 
-// Invalidar o cache
+// Certifica-se de que o cache seja removido
 if (file_exists(CACHE_FILE)) {
-    unlink(CACHE_FILE);
+    @unlink(CACHE_FILE);
 }
+
+// Também garante invalidação do cache via headers
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 
 // Define cookie e sessão de proteção
 $_SESSION[$sessionKey] = $timestamp;

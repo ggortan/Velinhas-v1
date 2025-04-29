@@ -45,8 +45,8 @@ function saveJsonFile($filename, $data) {
  */
 function processarVelasAtivas($velas) {
     $velasAtivas = [];
+    $velasExpiradas = [];
     $agora = time();
-    $velasExpiradas = false;
 
     foreach ($velas as $key => $vela) {
         if (!isset($vela['timestamp'], $vela['duracao'])) {
@@ -62,14 +62,27 @@ function processarVelasAtivas($velas) {
             $vela['reacoes'] = $vela['reacoes'] ?? 0;
             $velasAtivas[] = $vela;
         } else {
-            // Marca que encontramos velas expiradas
-            $velasExpiradas = true;
+            // Marca vela como expirada e a adiciona ao histórico
+            $vela['dataAcesa'] = date("d/m/Y H:i", $vela['timestamp']);
+            $vela['dataExpira'] = date("d/m/Y H:i", $dataExpiraTimestamp);
+            $vela['reacoes'] = $vela['reacoes'] ?? 0;
+            $vela['expirada'] = true;
+            $vela['dataExpiracaoReal'] = $agora;
+            $vela['dataExpiracaoFormatada'] = date("d/m/Y H:i", $agora);
+            
+            // Adiciona ao array de velas expiradas
+            $velasExpiradas[] = $vela;
         }
+    }
+
+    // Se tiver velas expiradas, salva no histórico
+    if (!empty($velasExpiradas)) {
+        salvarVelasNoHistorico($velasExpiradas);
     }
 
     return [
         'velas' => $velasAtivas,
-        'expiradas' => $velasExpiradas
+        'expiradas' => !empty($velasExpiradas)
     ];
 }
 
@@ -177,3 +190,137 @@ function verificarCsrfToken($token) {
     return isset($_SESSION['csrf_token']) && $_SESSION['csrf_token'] === $token;
 }
 
+/**
+ * Código para adicionar ao final do arquivo includes/utils.php
+ * NÃO SUBSTITUA a função processarVelasAtivas existente!
+ */
+
+// Definir constante para o arquivo de histórico se ainda não estiver definida
+if (!defined('VELAS_HISTORY_FILE')) {
+    define('VELAS_HISTORY_FILE', DATA_PATH . '/velas_history.json');
+}
+
+/**
+ * Salva velas expiradas no arquivo de histórico
+ * 
+ * @param array $velasExpiradas Lista de velas expiradas
+ * @return bool Resultado da operação
+ */
+function salvarVelasNoHistorico($velasExpiradas) {
+    // Carrega o histórico existente
+    $historico = loadJsonFile(VELAS_HISTORY_FILE, []);
+    
+    // Verifica se alguma vela já existe no histórico (evita duplicatas)
+    foreach ($velasExpiradas as $velaExpirada) {
+        $idVela = $velaExpirada['id'];
+        $exists = false;
+        
+        // Verifica se essa vela já existe no histórico
+        foreach ($historico as $velaHistorico) {
+            if (isset($velaHistorico['id']) && $velaHistorico['id'] == $idVela) {
+                $exists = true;
+                break;
+            }
+        }
+        
+        // Se não existir, adiciona ao histórico
+        if (!$exists) {
+            $historico[] = $velaExpirada;
+        }
+    }
+    
+    // Salva o histórico atualizado
+    return saveJsonFile(VELAS_HISTORY_FILE, $historico);
+}
+
+/**
+ * Obtém o histórico de velas expiradas com opções de filtro e paginação
+ * 
+ * @param int $page Número da página (começando em 1)
+ * @param int $porPagina Itens por página
+ * @param array $filtros Filtros a serem aplicados (opcional)
+ * @return array Dados das velas expiradas e metadados de paginação
+ */
+function getHistoricoVelas($page = 1, $porPagina = 20, $filtros = []) {
+    // Carrega todo o histórico
+    $historico = loadJsonFile(VELAS_HISTORY_FILE, []);
+    
+    // Aplica filtros, se houver
+    if (!empty($filtros)) {
+        $historicoFiltrado = [];
+        
+        foreach ($historico as $vela) {
+            $incluir = true;
+            
+            // Filtro por nome
+            if (isset($filtros['nome']) && !empty($filtros['nome'])) {
+                if (stripos($vela['nome'], $filtros['nome']) === false) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por período (data de expiração)
+            if (isset($filtros['dataInicio']) && !empty($filtros['dataInicio'])) {
+                $dataInicio = strtotime($filtros['dataInicio']);
+                if ($vela['dataExpiracaoReal'] < $dataInicio) {
+                    $incluir = false;
+                }
+            }
+            
+            if (isset($filtros['dataFim']) && !empty($filtros['dataFim'])) {
+                $dataFim = strtotime($filtros['dataFim'] . ' 23:59:59');
+                if ($vela['dataExpiracaoReal'] > $dataFim) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por personalização
+            if (isset($filtros['personalizacao']) && !empty($filtros['personalizacao'])) {
+                if ($vela['personalizacao'] != $filtros['personalizacao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por duração
+            if (isset($filtros['duracao']) && $filtros['duracao'] !== '') {
+                if ($vela['duracao'] != $filtros['duracao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Se passou em todos os filtros, inclui no resultado
+            if ($incluir) {
+                $historicoFiltrado[] = $vela;
+            }
+        }
+        
+        $historico = $historicoFiltrado;
+    }
+    
+    // Ordena por data de expiração (mais recentes primeiro)
+    usort($historico, function($a, $b) {
+        return $b['dataExpiracaoReal'] - $a['dataExpiracaoReal']; 
+    });
+    
+    // Calcula total de páginas
+    $totalItens = count($historico);
+    $totalPaginas = ceil($totalItens / $porPagina);
+    
+    // Ajusta página atual
+    $page = max(1, min($page, $totalPaginas));
+    
+    // Calcula offset para paginação
+    $offset = ($page - 1) * $porPagina;
+    
+    // Obtém apenas os itens da página atual
+    $itens = array_slice($historico, $offset, $porPagina);
+    
+    // Retorna resultado com metadados
+    return [
+        'itens' => $itens,
+        'total' => $totalItens,
+        'pagina' => $page,
+        'porPagina' => $porPagina,
+        'totalPaginas' => $totalPaginas
+    ];
+}

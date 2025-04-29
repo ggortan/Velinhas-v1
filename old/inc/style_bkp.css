@@ -1,0 +1,273 @@
+body {
+    padding-top: 70px;
+    /* Altura da navbar fixa */
+    background-color: #eee8aa;
+}
+.navbar {
+    background-color: #f5f5dc !important;
+    box-shadow: 0px -6px 20px 0px rgba(0, 0, 0, 0.5);
+}
+.capela-card {
+    border-color: #6f4f1f;
+}
+.capela-card-title {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.capela-card-header {
+    background-color: #6f4f1f;
+    border-color: #6f4f1f;
+}
+
+.capela-card-body {
+    background-color: #f5f5dc;
+}
+
+.capela-card-footer {
+    background-color: transparent;
+    border-top: 1px solid #6f4f1f;
+}
+.vela-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    width: 180px;
+}
+.vela {
+    width: 80px;
+    height: 200px;
+    margin-top: 30px;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+    background: #FFD700;
+    background-size: cover;
+    transition: border 0.3s ease;
+}
+.vela-chama {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flameFlicker 1s infinite alternate;
+    font-size: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.vela-chama::after {
+    content: "🔥";
+    display: block;
+}
+@keyframes flameFlicker {
+    0% {
+        transform: translateX(-50%) scale(0.5);
+    }
+    100% {
+        transform: translateX(-50%) scale(0.6);
+    }
+}
+.info-vela {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+.info-vela p {
+    margin-bottom: 0;
+}
+.img-radio:checked {
+    border: 3px solid blue;
+}
+.form-check-input:focus+.form-check-label .img-radio {
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+.img-radio {
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+.toast-container {
+    position: fixed;
+    z-index: 1055;
+}
+/* Desktop: canto superior direito */
+@media (min-width: 768px) {
+    .toast-container {
+        top: 1rem;
+        right: 1rem;
+    }
+}
+@media (max-width: 767px) {
+    .toast-container {
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+.hover-scale:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+
+}
+.btn-acender {
+    background-color: #645032;
+    color: white;
+    border: 3px solid #473821;
+}
+.btn-acender:hover {
+    background-color: #645032;
+    color: white;
+    border: 3px solid #473821;
+}
+
+.sponsor-container {
+    position: relative;
+    margin: 20px 0;
+    border: 2px solid #ededed;
+    background-color: #ededed;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sponsor-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ededed;
+    color: gray;
+    border-radius: 0px 2px 2px 0px;
+    padding: 4px 8px;
+    /* Diminui o padding */
+    font-size: 10px;
+    /* Reduz a fonte */
+    z-index: 10;
+}
+
+.scroll-container {
+    overflow: hidden;
+    width: 100%;
+    padding: 8px 0;
+    /* Diminui o padding */
+    position: relative;
+}
+
+.scroll-content {
+    display: flex;
+    gap: 12px;
+    /* Diminui o gap */
+    white-space: nowrap;
+    transition: transform 0.5s linear;
+}
+
+.card-custom1 {
+    min-width: 160px;
+    /* Diminui a largura */
+    max-width: 180px;
+    /* Ajusta o max-width */
+    flex: 0 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    cursor: pointer;
+}
+
+.card-body-custom1 {
+    padding: 8px;
+    /* Diminui o padding */
+    text-align: center;
+}
+
+.card-title-custom1 {
+    font-size: 14px;
+    /* Reduz o tamanho da fonte */
+    font-weight: bold;
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-text-custom1 {
+    font-size: 12px;
+    /* Reduz o tamanho da fonte */
+    overflow: hidden;
+    word-wrap: break-word;
+    display: block;
+    white-space: normal;
+    /* Permite quebra de linha */
+    max-height: 32px;
+    /* Ajusta a altura */
+}
+
+.btn-custom1 {
+    margin-top: 8px;
+    /* Diminui o margin */
+    background-color: #6a105a;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    /* Ajusta o padding */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-custom1:hover {
+    background-color: #821a7c;
+}
+
+/* Destacar o card de contato */
+.contact-card-custom1 {
+    background-color: #f7f7f7;
+    border: 2px solid #6a105a;
+}
+
+.card-body-custom1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 8px;
+    /* Ajusta o padding */
+    text-align: center;
+}
+
+.card-footer-custom1 {
+    background-color: #f7f7f7;
+    padding: 8px;
+    /* Diminui o padding */
+    text-align: center;
+    font-size: 14px;
+    /* Diminui o tamanho da fonte */
+    font-weight: bold;
+}
+
+.price {
+    color: #6a105a;
+}
+.arrow-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: back;
+    padding: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.arrow-left {
+    left: 10px;
+    color: rgb(1, 1, 1, 0.5);
+}
+
+.arrow-right {
+    right: 10px;
+    color: rgb(1, 1, 1, 0.5);
+}

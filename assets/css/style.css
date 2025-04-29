@@ -49,6 +49,10 @@ p {
     color: var(--color-text);
 }
 
+h5 {
+    color: var(--color-text);
+}
+
 footer p {
     color: #f5f5f5;
 }
@@ -641,4 +645,203 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
         font-size: 1rem;
         padding: 0 15px;
     }
+}
+
+/* Estilos para a página de vela individual */
+.vela-page-container {
+    padding: 20px 0;
+}
+
+.vela-grande-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.vela-grande {
+    width: 120px;
+    height: 300px;
+    margin-top: 40px;
+    position: relative;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+    background-size: cover;
+    transition: all 0.3s ease;
+}
+
+.vela-chama-grande {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flameFlicker 1s infinite alternate;
+    font-size: 45px;
+    line-height: 45px;
+    text-align: center;
+}
+
+.vela-chama-grande::after {
+    content: "🔥";
+    display: block;
+}
+
+.info-vela-grande {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.info-vela-grande h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+.info-vela-grande p {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: var(--color-text);
+}
+
+.compartilhar-container {
+    border-top: 1px solid var(--color-border);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .vela-grande {
+        width: 100px;
+        height: 250px;
+    }
+    
+    .info-vela-grande h2 {
+        font-size: 1.5rem;
+    }
+    
+    .info-vela-grande p {
+        font-size: 1rem;
+    }
+}
+
+/* Estilos para velas clicáveis na capela */
+.vela-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.vela-container {
+    position: relative;
+}
+
+/* Animação de entrada para a página de vela */
+.vela-grande-container {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para botões de compartilhamento no hover */
+.vela-container {
+    position: relative;
+}
+
+.share-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.2s ease-in-out;
+    z-index: 10;
+}
+
+.vela-container:hover .share-buttons {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.share-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+}
+
+.share-btn:hover {
+    transform: scale(1.15);
+}
+
+.share-btn.whatsapp {
+    background-color: #25D366;
+}
+
+.share-btn.facebook {
+    background-color: #1877F2;
+}
+
+.share-btn.copy {
+    background-color: #6c757d;
+}
+
+/* Tooltip para botão de copiar */
+.share-btn.copy {
+    position: relative;
+}
+
+.share-btn.copy::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.share-btn.copy.copied::after {
+    content: "Copiado!";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+/* Ajuste para evitar conflito com o botão de reação */
+.vela-container .info-vela {
+    position: relative;
+    z-index: 5;
 }

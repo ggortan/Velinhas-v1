@@ -1,0 +1,45 @@
+{
+    "name": "Velinhas",
+    "short_name": "Velinhas",
+    "description": "Acenda uma velinha virtual e faça sua oração",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fbe8c0",
+    "theme_color": "#645032",
+    "icons": [
+        {
+            "src": "/assets/img/vela-icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/img/vela-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "orientation": "portrait",
+    "lang": "pt-BR",
+    "dir": "ltr",
+    "categories": ["religion", "spirituality", "lifestyle"],
+    "screenshots": [
+    ],
+    "shortcuts": [
+        {
+            "name": "Acender Vela",
+            "url": "/?action=acender",
+            "description": "Acenda uma nova vela virtual",
+            "icons": [
+                {
+                    "src": "/assets/img/vela-icon-128.png",
+                    "sizes": "128x128",
+                    "type": "image/png"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

@@ -220,7 +220,7 @@ require_once __DIR__ . '/includes/head.php';
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <span class="stats-number">3.7.1</span>
+                                <span class="stats-number"><?php echo VERSION; ?></span>
                                 <span>Versão atual</span>
                             </div>
                         </div>
@@ -634,65 +634,3 @@ require_once __DIR__ . '/includes/head.php';
     
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
     
-    <script>
-        // Script para animar os números de estatísticas quando entram na tela
-        document.addEventListener('DOMContentLoaded', function() {
-            const statsNumbers = document.querySelectorAll('.stats-number');
-            
-            const observerOptions = {
-                threshold: 0.5
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = entry.target;
-                        const value = target.textContent;
-                        
-                        // Verificar se termina com + (para valores como 150k+)
-                        const hasPlus = value.endsWith('+');
-                        let numericValue = hasPlus ? value.slice(0, -1) : value;
-                        
-                        // Verificar se tem k (para valores como 150k)
-                        const hasK = numericValue.endsWith('k');
-                        if (hasK) {
-                            numericValue = parseFloat(numericValue.slice(0, -1)) * 1000;
-                        } else {
-                            numericValue = parseFloat(numericValue);
-                        }
-                        
-                        let startValue = 0;
-                        let duration = 1500;
-                        let startTime = null;
-                        
-                        function animate(timestamp) {
-                            if (!startTime) startTime = timestamp;
-                            const progress = Math.min((timestamp - startTime) / duration, 1);
-                            let currentValue = Math.floor(progress * numericValue);
-                            
-                            if (hasK) {
-                                currentValue = (currentValue / 1000).toFixed(1) + 'k';
-                            }
-                            
-                            if (hasPlus) {
-                                currentValue += '+';
-                            }
-                            
-                            target.textContent = currentValue;
-                            
-                            if (progress < 1) {
-                                requestAnimationFrame(animate);
-                            }
-                        }
-                        
-                        requestAnimationFrame(animate);
-                        observer.unobserve(target);
-                    }
-                });
-            }, observerOptions);
-            
-            statsNumbers.forEach(number => {
-                observer.observe(number);
-            });
-        });
-    </script>

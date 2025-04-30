@@ -36,12 +36,24 @@ require_once __DIR__ . '/includes/head.php';
         </div>
         
         <div id="alert-container"></div>
+        <?php if (isset($_GET['erro'])): ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?php if ($_GET['erro'] === 'vela_nao_encontrada'): ?>
+                    <strong>Vela não encontrada!</strong> A vela que você está procurando não existe ou já expirou.
+                <?php elseif ($_GET['erro'] === 'vela_moderada'): ?>
+                    <strong>Vela indisponível!</strong> Esta vela foi moderada por violar as diretrizes da comunidade.
+                <?php else: ?>
+                    <strong>Erro!</strong> Ocorreu um erro ao processar sua solicitação.
+                <?php endif; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+        <?php endif; ?>
         
         <h1>Acenda uma Vela Virtual 🕯</h1>
         <button class="btn btn-acender btn-lg mt-3 hover-scale" data-bs-toggle="modal" data-bs-target="#velaModal">Acender Velinha</button>
         
         <div class="mt-3">
-            <a href="#footer">
+            <a href="/sobre">
                 <small>Saiba mais sobre Velinhas Virtuais</small>
             </a>
         </div>
@@ -94,6 +106,34 @@ require_once __DIR__ . '/includes/head.php';
                             <label for="nome" class="form-label">Para quem será a vela?</label>
                             <input type="text" id="nome" class="form-control" maxlength="40" required>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="mensagem" class="form-label">Mensagem (opcional)</label>
+                            <textarea id="mensagem" class="form-control" rows="3" maxlength="200" placeholder="Adicione uma mensagem, oração ou pensamento especial (opcional)"></textarea>
+                            <div class="form-text">
+                                <span id="contador-caracteres">0</span>/200 caracteres
+                            </div>
+                        </div>
+                        
+                        <!-- Adicione este script para o contador de caracteres -->
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const mensagemTextarea = document.getElementById('mensagem');
+                            const contadorCaracteres = document.getElementById('contador-caracteres');
+                            
+                            mensagemTextarea.addEventListener('input', function() {
+                                const caracteresDigitados = this.value.length;
+                                contadorCaracteres.textContent = caracteresDigitados;
+                                
+                                // Muda a cor quando se aproxima do limite
+                                if (caracteresDigitados >= 180) {
+                                    contadorCaracteres.classList.add('text-danger');
+                                } else {
+                                    contadorCaracteres.classList.remove('text-danger');
+                                }
+                            });
+                        });
+                        </script>
                         
                         <div class="mb-3">
                             <label class="form-label">Duração:</label>
@@ -173,7 +213,7 @@ require_once __DIR__ . '/includes/head.php';
     </div>
     
     
-    <!-- Toast de boas-vindas -->
+    <!-- Toast de boas-vindas 
     <div class="toast-container">
         <div id="toastMessage" class="toast border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -184,7 +224,7 @@ require_once __DIR__ . '/includes/head.php';
                 Crie velas com moderação e respeito. Suas orações são importantes!
             </div>
         </div>
-    </div>
+    </div>-->
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
 </body>
 </html>

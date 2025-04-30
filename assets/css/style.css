@@ -13,6 +13,7 @@
     --color-border: #6f4f1f;
     --color-header: #6f4f1f;
     --color-header-text: white;
+    --color-bg-sobre-white: #fff;
 }
 
 [data-theme="dark"] {
@@ -24,6 +25,7 @@
     --color-border: #645032;
     --color-header: #3d3424;
     --color-header-text: #f5f5f5;
+    --color-bg-sobre-white: #6f4f1f;
 }
 
 /* Estilos gerais */

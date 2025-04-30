@@ -227,15 +227,15 @@ if (isset($_GET['valor']) && is_numeric($_GET['valor'])) {
             <div id="error-details"></div>
           </div>
           
-          <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingOne">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          <div class="accordion accordion-benefi accordion-flush mb-3 " id="accordionFlushExample">
+              <div class="accordion-item accordion-item-benefi">
+                <h2 class="accordion-header accordion-header-benefi" id="flush-headingOne">
+                  <button class="accordion-button accordion-button-benefi collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                     Quem é <strong class="ms-2"><?php echo $beneficiario; ?></strong> <span class="ms-2">(Saber mais)</span>
                   </button>
                 </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
+                <div id="flush-collapseOne" class="accordion-collapse accordion-collapse-benefi collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body accordion-body-benefi">
                     Gabriel Gortan é o desenvolvedor do Velinhas.com.br</br>Conhenha mais sobre em seu perfil no LinkedIn <a href="https://www.linkedin.com/in/gabrielgortan" target="_blank">aqui</a>
                   </div>
                 </div>
@@ -244,29 +244,29 @@ if (isset($_GET['valor']) && is_numeric($_GET['valor'])) {
             
             <style>
               /* Ajuste para o acordeão inteiro ser transparente */
-              .accordion-item {
+              .accordion-item-benefi {
                 background-color: transparent !important;
               }
-              .accordion-button {
+              .accordion-button-benefi {
                 background-color: transparent !important;
                 color: var(--bs-text-color, #fff); /* Ajuste para usar a cor do tema */
-                border: 1px solid rgba(255, 255, 255, 0.2); /* Borda sutil visível no tema escuro */
+                border: 1px solid rgba(255, 255, 255, 0.2);
               }
             
-              .accordion-button:not(.collapsed) {
+              .accordion-button-benefi:not(.collapsed) {
                 background-color: transparent !important;
-                color: var(--bs-text-color, #fff); /* Cor do texto ao expandir */
+                color: var(--bs-text-color, #fff);
               }
             
-              .accordion-button:focus {
-                box-shadow: none; /* Remover o foco brilhante */
+              .accordion-button-benefi:focus {
+                box-shadow: none;
               }
             
-              .accordion-collapse {
+              .accordion-collapse-benefi {
                 background-color: transparent !important;
               }
             
-              .accordion-body {
+              .accordion-body-benefi {
                 color: var(--bs-text-color, #fff); /* Cor do texto dentro do corpo */
               }
             </style>

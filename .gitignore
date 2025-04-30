@@ -1,6 +1,5 @@
 config.php
 keys.php
 
+*.json
 .htaccess
-
-/old/

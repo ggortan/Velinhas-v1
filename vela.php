@@ -1,7 +1,7 @@
 <?php
 /**
- * Velinhas - Página de Vela Individual (com suporte a velas expiradas)
- * Versão: 3.7.0
+ * Velinhas - Página de Vela Individual (com suporte a velas expiradas e moderadas)
+ * Versão: 3.7.1
  */
 // Iniciar a sessão se ainda não foi iniciada
 if (session_status() == PHP_SESSION_NONE) {
@@ -52,28 +52,42 @@ if ($velaAtual === null) {
     exit;
 }
 
+// Se a vela for moderada, exibe uma mensagem informativa se não for administrador
+$velaModerada = isset($velaAtual['moderado']) && $velaAtual['moderado'] === true;
+$isAdmin = isset($_SESSION['admin_auth']) && $_SESSION['admin_auth'] === true;
+
+if ($velaModerada && !$isAdmin) {
+    header('Location: /?erro=vela_moderada');
+    exit;
+}
+
 // Define a página ativa para o menu
 $activePage = 'vela';
 
 // Define o título e descrição da página com base na vela
-$pageTitle = "Vela para " . htmlspecialchars($velaAtual['nome']) . " - Velinhas 🕯";
-$pageDescription = "Confira a vela acesa para " . htmlspecialchars($velaAtual['nome']) . " e deixe sua oração. Compartilhe esta vela com amigos e familiares.";
+if ($velaModerada) {
+    $pageTitle = "Vela Moderada - Velinhas 🕯";
+    $pageDescription = "Esta vela foi moderada por violar as diretrizes da comunidade.";
+} else {
+    $pageTitle = "Vela para " . htmlspecialchars($velaAtual['nome']) . " - Velinhas 🕯";
+    $pageDescription = "Confira a vela acesa para " . htmlspecialchars($velaAtual['nome']) . " e deixe sua oração. Compartilhe esta vela com amigos e familiares.";
+}
 
 // Conteúdo extra para o head - Meta tags para compartilhamento
 $extraHeadContent = '
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://velinhas.com.br/vela.php?id=' . $idVela . '">
+<meta property="og:url" content="https://velinhas.com.br/vela/' . $idVela . '">
 <meta property="og:title" content="' . htmlspecialchars($pageTitle) . '">
 <meta property="og:description" content="' . htmlspecialchars($pageDescription) . '">
 <meta property="og:image" content="https://velinhas.com.br/assets/img/' . ($velaAtual['personalizacao'] == 'vela0' || $velaAtual['personalizacao'] == 'vela1' || $velaAtual['personalizacao'] == 'vela2' || $velaAtual['personalizacao'] == 'vela3' ? $velaAtual['personalizacao'] . '.png' : 'vela0.png') . '">
 <meta name="twitter:card" content="summary_large_image">
 ';
 
-// Estilos adicionais para velas expiradas
-if ($velaExpirada) {
+// Estilos adicionais para velas expiradas e moderadas
+if ($velaExpirada || $velaModerada) {
     $extraHeadContent .= '
     <style>
-        .vela-expired {
+        .vela-expired, .vela-moderated {
             position: relative;
         }
         
@@ -93,12 +107,34 @@ if ($velaExpirada) {
             z-index: 10;
         }
         
+        .vela-moderated::before {
+            content: "Vela Moderada";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            z-index: 10;
+        }
+        
         .vela-grande.expired {
             filter: grayscale(80%);
             opacity: 0.8;
         }
         
-        .vela-chama-grande.expired {
+        .vela-grande.moderated {
+            filter: blur(5px);
+            opacity: 0.6;
+        }
+        
+        .vela-chama-grande.expired,
+        .vela-chama-grande.moderated {
             display: none;
         }
         
@@ -111,11 +147,29 @@ if ($velaExpirada) {
             border-radius: 5px;
         }
         
+        .moderated-info {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        
         .new-vela-prompt {
             background-color: #cce5ff;
             border: 1px solid #b8daff;
             color: #004085;
             padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        
+        .admin-view-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffecb5;
+            color: #664d03;
+            padding: 15px;
             margin-top: 15px;
             border-radius: 5px;
         }
@@ -151,11 +205,47 @@ require_once __DIR__ . '/includes/head.php';
             <div class="col-md-8">
                 <div class="card capela-card">
                     <div class="card-header capela-card-header">
-                        <h1 class="capela-card-title">Vela para <?php echo htmlspecialchars($velaAtual['nome']); ?></h1>
+                        <h1 class="capela-card-title">
+                            <?php if ($velaModerada): ?>
+                                Vela Moderada
+                            <?php else: ?>
+                                Vela para <?php echo htmlspecialchars($velaAtual['nome']); ?>
+                            <?php endif; ?>
+                        </h1>
                     </div>
                     
                     <div class="card-body capela-card-body text-center">
-                        <div class="vela-page-container <?php echo $velaExpirada ? 'vela-expired' : ''; ?>">
+                        <?php if ($velaModerada): ?>
+                            <div class="alert alert-danger">
+                                <h4><i class="bi bi-shield-fill-exclamation"></i> Vela Moderada</h4>
+                                <p>Esta vela foi moderada por violar as diretrizes do sistema Velinhas.</p>
+                                <p>O conteúdo original foi ocultado.</p>
+                            </div>
+                            
+                            <!-- Mostrar o conteúdo original apenas para administradores -->
+                            <?php if ($isAdmin): ?>
+                                <div class="admin-view-box">
+                                    <h5><i class="bi bi-eye-fill"></i> Visualização de Administrador</h5>
+                                    <p>Você está visualizando esta vela como administrador.</p>
+                                    <p>Nome original: <strong><?php echo htmlspecialchars($velaAtual['nome']); ?></strong></p>
+                                    
+                                    <div class="mt-2">
+                                        <form method="post" action="/admin/velas_admin.php">
+                                            <input type="hidden" name="id" value="<?php echo $velaAtual['id']; ?>">
+                                            <input type="hidden" name="action" value="unmoderate">
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                <i class="bi bi-shield-check"></i> Remover Moderação
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        <div class="vela-page-container <?php 
+                            echo $velaExpirada ? 'vela-expired' : '';
+                            echo $velaModerada ? 'vela-moderated' : '';
+                        ?>">
                             <!-- Container da vela grande -->
                             <div class="vela-grande-container">
                                 <?php
@@ -177,48 +267,70 @@ require_once __DIR__ . '/includes/head.php';
                                 }
                                 ?>
                                 
-                                <div class="vela-grande <?php echo $velaExpirada ? 'expired' : ''; ?>" style="<?php echo $velaStyle . $velaBorder; ?>">
-                                    <div class="vela-chama-grande <?php echo $velaExpirada ? 'expired' : ''; ?>"></div>
+                                <div class="vela-grande <?php 
+                                    echo $velaExpirada ? 'expired' : '';
+                                    echo $velaModerada ? 'moderated' : '';
+                                ?>" style="<?php echo $velaStyle . $velaBorder; ?>">
+                                    <div class="vela-chama-grande <?php 
+                                        echo $velaExpirada ? 'expired' : '';
+                                        echo $velaModerada ? 'moderated' : '';
+                                    ?>"></div>
                                 </div>
                                 
                                 <div class="info-vela-grande">
-                                    <h2><?php echo htmlspecialchars($velaAtual['nome']); ?></h2>
-                                    <p>Acesa em: <?php echo $velaAtual['dataAcesa']; ?></p>
-                                    <?php if ($velaExpirada): ?>
-                                        <p>Apagou em: <?php echo $velaAtual['dataExpiracaoFormatada']; ?></p>
-                                        <div class="expired-info">
-                                            Esta vela já se apagou. Ficou acesa por <?php echo $velaAtual['duracao']; ?> dia(s).
+                                    <?php if (!$velaModerada || $isAdmin): ?>
+                                        <h2><?php echo htmlspecialchars($velaAtual['nome']); ?></h2>
+                                        <?php if (isset($velaAtual['mensagem']) && !empty($velaAtual['mensagem'])): ?>
+                                        <div class="card cartao-mensagem capela-card mb-3">
+                                            <div class="card-header cartao-mensagem-cabecalho capela-card-header " style="text-align: left;color: var(--color-header-text);">
+                                                ✉ Mensagem
+                                            </div>
+                                            <div class="card-body cartao-mensagem-conteudo capela-card-body" style="border-radius: 5px;">
+                                                <p><?php echo nl2br(htmlspecialchars($velaAtual['mensagem'])); ?></p>
+                                            </div>
                                         </div>
-                                        <div class="new-vela-prompt d-flex align-items-center justify-content-between">
-                                            🕯 Deseja acender uma nova vela? 
-                                            <button class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#velaModal">
-                                                <i class="bi bi-fire"></i> Acender Nova Vela
-                                            </button>
-                                        </div>
-                                    <?php else: ?>
-                                        <p>Apaga em: <?php echo $velaAtual['dataExpira']; ?></p>
-                                        
-                                        <!-- Botão de reação (apenas para velas ativas) -->
-                                        <button class="btn btn-lg reagir-btn mt-3" id="btn-reacao-principal" data-id="<?php echo $velaAtual['id']; ?>" data-csrf="<?php echo $csrfToken; ?>">
-                                            🙏 <span class="reacao-count"><?php echo $velaAtual['reacoes'] ?? 0; ?></span>
-                                        </button>
+                                        <?php endif; ?>
+                                        <p class="mb-0">Acesa em: <?php echo $velaAtual['dataAcesa']; ?></p>
+                                        <?php if ($velaExpirada): ?>
+                                            <p>Apagou em: <?php echo $velaAtual['dataExpiracaoFormatada']; ?></p>
+                                            <div class="expired-info">
+                                                Esta vela já se apagou. Ficou acesa por <?php echo $velaAtual['duracao']; ?> dia(s).
+                                            </div>
+                                            <div class="new-vela-prompt d-flex align-items-center justify-content-between">
+                                                🕯 Deseja acender uma nova vela? 
+                                                <button class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#velaModal">
+                                                    <i class="bi bi-fire"></i> Acender Nova Vela
+                                                </button>
+                                            </div>
+                                        <?php else: ?>
+                                            <p>Apaga em: <?php echo $velaAtual['dataExpira']; ?></p>
+                                            
+                                            <!-- Botão de reação (apenas para velas ativas não moderadas) -->
+                                            <?php if (!$velaModerada): ?>
+                                                <button class="btn btn-lg reagir-btn mt-3" id="btn-reacao-principal" data-id="<?php echo $velaAtual['id']; ?>" data-csrf="<?php echo $csrfToken; ?>">
+                                                    🙏 <span class="reacao-count"><?php echo $velaAtual['reacoes'] ?? 0; ?></span>
+                                                </button>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     
-                                    <!-- Botões de compartilhamento -->
-                                    <div class="compartilhar-container mt-4">
-                                        <h5>Compartilhar esta vela:</h5>
-                                        <div class="d-flex justify-content-center gap-2 mt-3">
-                                            <a href="https://wa.me/?text=<?php echo urlencode('Veja a vela que acendi para ' . $velaAtual['nome'] . ': ' . 'https://velinhas.com.br/vela.php?id=' . $idVela); ?>" target="_blank" class="btn btn-success">
-                                                <i class="bi bi-whatsapp"></i> 
-                                            </a>
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('https://velinhas.com.br/vela.php?id=' . $idVela); ?>" target="_blank" class="btn btn-primary">
-                                                <i class="bi bi-facebook"></i> 
-                                            </a>
-                                            <button class="btn btn-secondary" id="copiarLink">
-                                                <i class="bi bi-clipboard"></i>
-                                            </button>
+                                    <!-- Botões de compartilhamento (somente para velas não moderadas) -->
+                                    <?php if (!$velaModerada): ?>
+                                        <div class="compartilhar-container mt-4">
+                                            <h5>Compartilhar esta vela:</h5>
+                                            <div class="d-flex justify-content-center gap-2 mt-3">
+                                                <a href="https://wa.me/?text=<?php echo urlencode('Veja a vela que acendi para ' . $velaAtual['nome'] . ': ' . 'https://velinhas.com.br/vela/' . $idVela); ?>" target="_blank" class="btn btn-success">
+                                                    <i class="bi bi-whatsapp"></i> 
+                                                </a>
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('https://velinhas.com.br/vela/' . $idVela); ?>" target="_blank" class="btn btn-primary">
+                                                    <i class="bi bi-facebook"></i> 
+                                                </a>
+                                                <button class="btn btn-secondary" id="copiarLink">
+                                                    <i class="bi bi-clipboard"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -259,6 +371,34 @@ require_once __DIR__ . '/includes/head.php';
                             <label for="nome" class="form-label">Para quem será a vela?</label>
                             <input type="text" id="nome" class="form-control" maxlength="40" required>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="mensagem" class="form-label">Mensagem (opcional)</label>
+                            <textarea id="mensagem" class="form-control" rows="3" maxlength="200" placeholder="Adicione uma mensagem, oração ou pensamento especial (opcional)"></textarea>
+                            <div class="form-text">
+                                <span id="contador-caracteres">0</span>/200 caracteres
+                            </div>
+                        </div>
+                        
+                        <!-- Adicione este script para o contador de caracteres -->
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const mensagemTextarea = document.getElementById('mensagem');
+                            const contadorCaracteres = document.getElementById('contador-caracteres');
+                            
+                            mensagemTextarea.addEventListener('input', function() {
+                                const caracteresDigitados = this.value.length;
+                                contadorCaracteres.textContent = caracteresDigitados;
+                                
+                                // Muda a cor quando se aproxima do limite
+                                if (caracteresDigitados >= 180) {
+                                    contadorCaracteres.classList.add('text-danger');
+                                } else {
+                                    contadorCaracteres.classList.remove('text-danger');
+                                }
+                            });
+                        });
+                        </script>
                         
                         <div class="mb-3">
                             <label class="form-label">Duração:</label>
@@ -396,7 +536,7 @@ require_once __DIR__ . '/includes/head.php';
 
     // Garantir que o reacaoManager só seja inicializado uma vez, após carregar a página completamente
     window.addEventListener('load', function() {
-        // Só inicializa o reacaoManager para velas ativas
+        // Só inicializa o reacaoManager para velas ativas e não moderadas
         const btnReacao = document.getElementById('btn-reacao-principal');
         if (btnReacao) {
             // Inicializar o reacaoManager depois que a página estiver completamente carregada

@@ -133,6 +133,7 @@ function showLoginForm($error = null) {
                         <div class="card-header bg-primary text-white">
                             <h4 class="mb-0">Acesso Administrativo</h4>
                         </div>
+                        
                         <div class="card-body">
                             <?php if ($error): ?>
                                 <div class="alert alert-danger"><?php echo $error; ?></div>
@@ -218,7 +219,12 @@ $pageDescription = "Histórico de velas expiradas do sistema Velinhas.";
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Administração - Histórico de Velas</h1>
-                <a href="?logout=1" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sair</a>
+                <div>
+                    <a href="/admin/velas_admin.php" class="btn btn-warning btn-sm me-2">
+                        <i class="bi bi-shield-fill"></i> Gerenciamento de Velas
+                    </a>
+                    <a href="?logout=1" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Sair</a>
+                </div>
             </div>
         </div>
     </div>
@@ -343,7 +349,7 @@ $pageDescription = "Histórico de velas expiradas do sistema Velinhas.";
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="/vela.php?id=<?php echo $vela['id']; ?>" class="btn btn-sm btn-outline-primary" target="_blank">
+                                        <a href="/vela/<?php echo $vela['id']; ?>" class="btn btn-sm btn-outline-primary" target="_blank">
                                             <i class="bi bi-eye"></i> Ver
                                         </a>
                                     </td>

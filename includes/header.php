@@ -21,10 +21,7 @@
                     <a class="nav-link <?php echo ($activePage == 'home') ? 'active' : ''; ?>" href="<?php echo ($activePage == 'home') ? '#capela' : '/'; ?>">Capela de Velas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo ($activePage == 'home') ? '#footer' : '/#footer'; ?>">Sobre</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($activePage == 'changelog') ? 'active' : ''; ?>" href="/changelog.php">Changelog</a>
+                    <a class="nav-link" href="<?php echo ($activePage == 'home') ? '/sobre' : '/sobre'; ?>">Sobre</a>
                 </li>
             </ul>
             <?php if ($activePage == 'home'): ?>

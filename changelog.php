@@ -57,6 +57,10 @@ require_once __DIR__ . '/includes/head.php';
                         <span class="badge bg-success feature-tag">Novo Recurso</span>
                     </li>
                     <li>
+                        Mensagem personalizada ao criar a vela
+                        <span class="badge bg-success feature-tag">Novo Recurso</span>
+                    </li>
+                    <li>
                         Melhorias no sistema de reções
                         <span class="badge bg-info feature-tag">Otimização</span>
                     </li>

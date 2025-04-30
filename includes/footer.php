@@ -20,9 +20,9 @@ if (file_exists($statsFile)) {
 <footer class="text-light py-4" id="footer">
     <div class="container text-center">
         
-        <h5>Sobre o Velinhas</h5>
-        <p><small>Este é um projeto sem fins lucrativos, criado com a intenção de promover momentos de reflexão, paz e espiritualidade. Pedimos que usem a ferramenta com consciência e respeito, lembrando sempre que é importante não abusar da criação de velas, pois <mark>Deus está de olho em nossas ações.</mark>
-            <br>Proibido: Acender velas que incitem ódio, violência, racismo ou qualquer forma de discriminação. Qualquer uso indevido da plataforma poderá resultar em bloqueio do acesso.
+        <h5>Velinhas</h5>
+        <p><small>Projeto sem fins lucrativos, criado com a intenção de promover momentos de reflexão, paz e espiritualidade. Pedimos que usem a ferramenta com consciência e respeito, lembrando sempre que é importante não abusar da criação de velas, pois <mark>Deus está de olho em nossas ações.</mark>
+            <br>Proibido: Acender velas que incitem ódio, violência, racismo ou qualquer forma de discriminação.
             <br>Aproveite este espaço com respeito, amor e harmonia. Vamos manter a luz acesa de maneira positiva, espalhando boas energias para todos.</small>
         </p>
         <!-- Contador de velinhas -->

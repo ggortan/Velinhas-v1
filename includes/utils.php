@@ -43,6 +43,12 @@ function saveJsonFile($filename, $data) {
  * @param array $velas Lista completa de velas
  * @return array Lista de velas ativas
  */
+/**
+ * Processa a lista de velas e retorna apenas as ativas não moderadas
+ * 
+ * @param array $velas Lista completa de velas
+ * @return array Lista de velas ativas
+ */
 function processarVelasAtivas($velas) {
     $velasAtivas = [];
     $velasExpiradas = [];
@@ -50,6 +56,11 @@ function processarVelasAtivas($velas) {
 
     foreach ($velas as $key => $vela) {
         if (!isset($vela['timestamp'], $vela['duracao'])) {
+            continue;
+        }
+        
+        // Pula velas moderadas para não aparecerem no front-end
+        if (isset($vela['moderado']) && $vela['moderado'] === true) {
             continue;
         }
         
@@ -314,6 +325,355 @@ function getHistoricoVelas($page = 1, $porPagina = 20, $filtros = []) {
     
     // Obtém apenas os itens da página atual
     $itens = array_slice($historico, $offset, $porPagina);
+    
+    // Retorna resultado com metadados
+    return [
+        'itens' => $itens,
+        'total' => $totalItens,
+        'pagina' => $page,
+        'porPagina' => $porPagina,
+        'totalPaginas' => $totalPaginas
+    ];
+}
+
+/**
+ * Função para moderar uma vela (adicionar à vela o atributo 'moderado' = true)
+ * 
+ * @param int $idVela ID da vela a ser moderada
+ * @return bool Resultado da operação
+ */
+function moderarVela($idVela) {
+    // Primeiro, procura a vela nas velas ativas
+    $velas = loadJsonFile(VELAS_FILE);
+    $velaEncontrada = false;
+    
+    foreach ($velas as &$vela) {
+        if ($vela['id'] == $idVela) {
+            $vela['moderado'] = true;
+            $velaEncontrada = true;
+            break;
+        }
+    }
+    
+    // Se encontrou a vela ativa, salva as alterações
+    if ($velaEncontrada) {
+        $resultado = saveJsonFile(VELAS_FILE, $velas);
+        
+        // Limpa o cache para que as alterações tenham efeito imediato
+        if (file_exists(CACHE_FILE)) {
+            @unlink(CACHE_FILE);
+        }
+        
+        return $resultado;
+    }
+    
+    // Se não encontrou nas velas ativas, procura no histórico
+    $historicoVelas = loadJsonFile(VELAS_HISTORY_FILE, []);
+    
+    foreach ($historicoVelas as &$vela) {
+        if ($vela['id'] == $idVela) {
+            $vela['moderado'] = true;
+            $velaEncontrada = true;
+            break;
+        }
+    }
+    
+    // Se encontrou no histórico, salva as alterações
+    if ($velaEncontrada) {
+        return saveJsonFile(VELAS_HISTORY_FILE, $historicoVelas);
+    }
+    
+    return false;
+}
+
+/**
+ * Função para remover a moderação de uma vela (definir 'moderado' = false)
+ * 
+ * @param int $idVela ID da vela para remover moderação
+ * @return bool Resultado da operação
+ */
+function desmoderarVela($idVela) {
+    // Primeiro, procura a vela nas velas ativas
+    $velas = loadJsonFile(VELAS_FILE);
+    $velaEncontrada = false;
+    
+    foreach ($velas as &$vela) {
+        if ($vela['id'] == $idVela) {
+            $vela['moderado'] = false;
+            $velaEncontrada = true;
+            break;
+        }
+    }
+    
+    // Se encontrou a vela ativa, salva as alterações
+    if ($velaEncontrada) {
+        $resultado = saveJsonFile(VELAS_FILE, $velas);
+        
+        // Limpa o cache para que as alterações tenham efeito imediato
+        if (file_exists(CACHE_FILE)) {
+            @unlink(CACHE_FILE);
+        }
+        
+        return $resultado;
+    }
+    
+    // Se não encontrou nas velas ativas, procura no histórico
+    $historicoVelas = loadJsonFile(VELAS_HISTORY_FILE, []);
+    
+    foreach ($historicoVelas as &$vela) {
+        if ($vela['id'] == $idVela) {
+            $vela['moderado'] = false;
+            $velaEncontrada = true;
+            break;
+        }
+    }
+    
+    // Se encontrou no histórico, salva as alterações
+    if ($velaEncontrada) {
+        return saveJsonFile(VELAS_HISTORY_FILE, $historicoVelas);
+    }
+    
+    return false;
+}
+
+/**
+ * Obtém as velas ativas para o painel administrativo (com suporte a filtros e moderação)
+ *
+ * @param int $page Número da página (começando em 1)
+ * @param int $porPagina Itens por página
+ * @param array $filtros Filtros a serem aplicados (opcional)
+ * @return array Dados das velas ativas e metadados de paginação
+ */
+function getVelasAtivasAdmin($page = 1, $porPagina = 20, $filtros = []) {
+    // Carrega todas as velas ativas
+    $velas = loadJsonFile(VELAS_FILE, []);
+    
+    // Adiciona informações adicionais para cada vela
+    $velasProcessadas = [];
+    $agora = time();
+    
+    foreach ($velas as $vela) {
+        if (!isset($vela['timestamp'], $vela['duracao'])) {
+            continue;
+        }
+        
+        $dataExpiraTimestamp = $vela['timestamp'] + ((int)$vela['duracao'] * 86400);
+        
+        // Apenas velas que ainda não expiraram
+        if ($dataExpiraTimestamp > $agora) {
+            // Adiciona informações formatadas
+            $vela['dataAcesa'] = date("d/m/Y H:i", $vela['timestamp']);
+            $vela['dataExpira'] = date("d/m/Y H:i", $dataExpiraTimestamp);
+            $vela['reacoes'] = $vela['reacoes'] ?? 0;
+            
+            // Garante que o status de moderação esteja definido
+            $vela['moderado'] = isset($vela['moderado']) ? $vela['moderado'] : false;
+            
+            $velasProcessadas[] = $vela;
+        }
+    }
+    
+    // Aplica filtros, se houver
+    if (!empty($filtros)) {
+        $velasFiltered = [];
+        
+        foreach ($velasProcessadas as $vela) {
+            $incluir = true;
+            
+            // Filtro por nome
+            if (isset($filtros['nome']) && !empty($filtros['nome'])) {
+                if (stripos($vela['nome'], $filtros['nome']) === false) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por período (data de acender)
+            if (isset($filtros['dataInicio']) && !empty($filtros['dataInicio'])) {
+                $dataInicio = strtotime($filtros['dataInicio']);
+                if ($vela['timestamp'] < $dataInicio) {
+                    $incluir = false;
+                }
+            }
+            
+            if (isset($filtros['dataFim']) && !empty($filtros['dataFim'])) {
+                $dataFim = strtotime($filtros['dataFim'] . ' 23:59:59');
+                if ($vela['timestamp'] > $dataFim) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por personalização
+            if (isset($filtros['personalizacao']) && !empty($filtros['personalizacao'])) {
+                if ($vela['personalizacao'] != $filtros['personalizacao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por duração
+            if (isset($filtros['duracao']) && $filtros['duracao'] !== '') {
+                if ($vela['duracao'] != $filtros['duracao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por status de moderação
+            if (isset($filtros['moderado'])) {
+                $statusModerado = $filtros['moderado'] === true || $filtros['moderado'] === 'true';
+                if (isset($vela['moderado']) && $vela['moderado'] !== $statusModerado) {
+                    $incluir = false;
+                }
+            }
+            
+            // Se passou em todos os filtros, inclui na lista filtrada
+            if ($incluir) {
+                $velasFiltered[] = $vela;
+            }
+        }
+        
+        $velasProcessadas = $velasFiltered;
+    }
+    
+    // Ordena por timestamp (mais recentes primeiro)
+    usort($velasProcessadas, function($a, $b) {
+        return $b['timestamp'] - $a['timestamp'];
+    });
+    
+    // Calcula total de páginas
+    $totalItens = count($velasProcessadas);
+    $totalPaginas = ceil($totalItens / $porPagina);
+    
+    // Ajusta página atual
+    $page = max(1, min($page, $totalPaginas));
+    
+    // Calcula offset para paginação
+    $offset = ($page - 1) * $porPagina;
+    
+    // Obtém apenas os itens da página atual
+    $itens = array_slice($velasProcessadas, $offset, $porPagina);
+    
+    // Retorna resultado com metadados
+    return [
+        'itens' => $itens,
+        'total' => $totalItens,
+        'pagina' => $page,
+        'porPagina' => $porPagina,
+        'totalPaginas' => $totalPaginas
+    ];
+}
+
+/**
+ * Obtém todas as velas (ativas e histórico) para o painel administrativo
+ *
+ * @param int $page Número da página (começando em 1)
+ * @param int $porPagina Itens por página
+ * @param array $filtros Filtros a serem aplicados (opcional)
+ * @return array Dados de todas as velas e metadados de paginação
+ */
+function getTodasVelas($page = 1, $porPagina = 20, $filtros = []) {
+    // Obtém velas ativas e históricas
+    $velasAtivas = loadJsonFile(VELAS_FILE, []);
+    $velasHistorico = loadJsonFile(VELAS_HISTORY_FILE, []);
+    
+    // Processa velas ativas
+    $velasAtivasProcessadas = [];
+    $agora = time();
+    
+    foreach ($velasAtivas as $vela) {
+        if (!isset($vela['timestamp'], $vela['duracao'])) {
+            continue;
+        }
+        
+        $dataExpiraTimestamp = $vela['timestamp'] + ((int)$vela['duracao'] * 86400);
+        
+        // Adiciona informações formatadas
+        $vela['dataAcesa'] = date("d/m/Y H:i", $vela['timestamp']);
+        $vela['dataExpira'] = date("d/m/Y H:i", $dataExpiraTimestamp);
+        $vela['reacoes'] = $vela['reacoes'] ?? 0;
+        $vela['moderado'] = isset($vela['moderado']) ? $vela['moderado'] : false;
+        
+        $velasAtivasProcessadas[] = $vela;
+    }
+    
+    // Combina todas as velas
+    $todasVelas = array_merge($velasAtivasProcessadas, $velasHistorico);
+    
+    // Aplica filtros, se houver
+    if (!empty($filtros)) {
+        $velasFiltered = [];
+        
+        foreach ($todasVelas as $vela) {
+            $incluir = true;
+            
+            // Filtro por nome
+            if (isset($filtros['nome']) && !empty($filtros['nome'])) {
+                if (stripos($vela['nome'], $filtros['nome']) === false) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por período (data de acender)
+            if (isset($filtros['dataInicio']) && !empty($filtros['dataInicio'])) {
+                $dataInicio = strtotime($filtros['dataInicio']);
+                if ($vela['timestamp'] < $dataInicio) {
+                    $incluir = false;
+                }
+            }
+            
+            if (isset($filtros['dataFim']) && !empty($filtros['dataFim'])) {
+                $dataFim = strtotime($filtros['dataFim'] . ' 23:59:59');
+                if ($vela['timestamp'] > $dataFim) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por personalização
+            if (isset($filtros['personalizacao']) && !empty($filtros['personalizacao'])) {
+                if ($vela['personalizacao'] != $filtros['personalizacao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por duração
+            if (isset($filtros['duracao']) && $filtros['duracao'] !== '') {
+                if ($vela['duracao'] != $filtros['duracao']) {
+                    $incluir = false;
+                }
+            }
+            
+            // Filtro por status de moderação
+            if (isset($filtros['moderado'])) {
+                $statusModerado = $filtros['moderado'] === true || $filtros['moderado'] === 'true';
+                if (isset($vela['moderado']) && $vela['moderado'] !== $statusModerado) {
+                    $incluir = false;
+                }
+            }
+            
+            // Se passou em todos os filtros, inclui na lista filtrada
+            if ($incluir) {
+                $velasFiltered[] = $vela;
+            }
+        }
+        
+        $todasVelas = $velasFiltered;
+    }
+    
+    // Ordena por timestamp (mais recentes primeiro)
+    usort($todasVelas, function($a, $b) {
+        return $b['timestamp'] - $a['timestamp'];
+    });
+    
+    // Calcula total de páginas
+    $totalItens = count($todasVelas);
+    $totalPaginas = ceil($totalItens / $porPagina);
+    
+    // Ajusta página atual
+    $page = max(1, min($page, $totalPaginas));
+    
+    // Calcula offset para paginação
+    $offset = ($page - 1) * $porPagina;
+    
+    // Obtém apenas os itens da página atual
+    $itens = array_slice($todasVelas, $offset, $porPagina);
     
     // Retorna resultado com metadados
     return [

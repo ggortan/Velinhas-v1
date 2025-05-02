@@ -1,41 +1,11 @@
 [
     {
-        "id": 191,
-        "nome": "Combinar ingredientes reduz nutri\u00e7\u00e3o",
-        "duracao": "7",
-        "personalizacao": "vela3",
-        "timestamp": 1745414494,
-        "reacoes": 2,
-        "dataAcesa": "23\/04\/2025 10:21",
-        "dataExpira": "30\/04\/2025 10:21"
-    },
-    {
-        "id": 742,
-        "nome": "Para nossa nova casa",
-        "duracao": "7",
-        "personalizacao": "vela0",
-        "timestamp": 1745585029,
-        "reacoes": 3,
-        "dataAcesa": "25\/04\/2025 09:43",
-        "dataExpira": "02\/05\/2025 09:43"
-    },
-    {
-        "id": 743,
-        "nome": "minha filha J\u00falia",
-        "duracao": "7",
-        "personalizacao": "vela1",
-        "timestamp": 1745585061,
-        "reacoes": 2,
-        "dataAcesa": "25\/04\/2025 09:44",
-        "dataExpira": "02\/05\/2025 09:44"
-    },
-    {
         "id": 746,
         "nome": "Por mais caracteres no velinhas, pois no",
         "duracao": "7",
         "personalizacao": "vela1",
         "timestamp": 1745611791,
-        "reacoes": 3,
+        "reacoes": 4,
         "dataAcesa": "25\/04\/2025 17:09",
         "dataExpira": "02\/05\/2025 17:09"
     },
@@ -85,7 +55,7 @@
         "duracao": "7",
         "personalizacao": "#00ff00",
         "timestamp": 1745873099,
-        "reacoes": 0,
+        "reacoes": 1,
         "moderado": false,
         "dataAcesa": "28\/04\/2025 17:44",
         "dataExpira": "05\/05\/2025 17:44"
@@ -96,19 +66,9 @@
         "duracao": "7",
         "personalizacao": "vela0",
         "timestamp": 1745875764,
-        "reacoes": 1,
+        "reacoes": 2,
         "dataAcesa": "28\/04\/2025 18:29",
         "dataExpira": "05\/05\/2025 18:29"
-    },
-    {
-        "id": 766,
-        "nome": "QrCode do cliente",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745939606,
-        "reacoes": 1,
-        "dataAcesa": "29\/04\/2025 12:13",
-        "dataExpira": "30\/04\/2025 12:13"
     },
     {
         "id": 767,
@@ -121,24 +81,35 @@
         "dataExpira": "06\/05\/2025 12:16"
     },
     {
-        "id": 770,
-        "nome": "Vela teste com mensagem",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745942082,
-        "mensagem": "Vela teste com mensagem",
-        "reacoes": 2,
-        "dataAcesa": "29\/04\/2025 12:54",
-        "dataExpira": "30\/04\/2025 12:54"
-    },
-    {
         "id": 771,
         "nome": "A paz no spick",
         "duracao": "7",
         "personalizacao": "vela3",
         "timestamp": 1745951923,
-        "reacoes": 5,
+        "reacoes": 6,
         "dataAcesa": "29\/04\/2025 15:38",
         "dataExpira": "06\/05\/2025 15:38"
+    },
+    {
+        "id": 772,
+        "nome": "Meu sobrinho",
+        "duracao": "7",
+        "personalizacao": "vela1",
+        "timestamp": 1746024711,
+        "mensagem": "Velinha para meu sobrinho e toda minha familia",
+        "reacoes": 1,
+        "dataAcesa": "30\/04\/2025 11:51",
+        "dataExpira": "07\/05\/2025 11:51"
+    },
+    {
+        "id": 774,
+        "nome": "Ao mundo todo",
+        "duracao": "7",
+        "personalizacao": "vela2",
+        "timestamp": 1746204927,
+        "mensagem": "Vela dedicada a todos do planeta terra.",
+        "reacoes": 0,
+        "dataAcesa": "02\/05\/2025 13:55",
+        "dataExpira": "09\/05\/2025 13:55"
     }
 ]

@@ -52,14 +52,14 @@ if (!isset($csrfToken)) {
     <!-- Manifesto PWA -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#fbe8c0">
-    <link rel="apple-touch-icon" href="/assets/img/vela-icon-192.png">
+    <link rel="apple-touch-icon" href="/assets/img/web/icon-192.png">
     
     <!-- Estilos e scripts -->
     <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo VERSION; ?>">
-    <link rel="icon" type="image/png" href="/assets/img/vela.png">
+    <link rel="icon" type="image/png" href="/assets/img/web/icon-192.png">
     
     <?php if (isset($extraHeadContent)) echo $extraHeadContent; ?>
 </head>

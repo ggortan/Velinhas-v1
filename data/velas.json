@@ -1,35 +1,11 @@
 [
     {
-        "id": 191,
-        "nome": "Combinar ingredientes reduz nutri\u00e7\u00e3o",
-        "duracao": "7",
-        "personalizacao": "vela3",
-        "timestamp": 1745414494,
-        "reacoes": 2
-    },
-    {
-        "id": 742,
-        "nome": "Para nossa nova casa",
-        "duracao": "7",
-        "personalizacao": "vela0",
-        "timestamp": 1745585029,
-        "reacoes": 3
-    },
-    {
-        "id": 743,
-        "nome": "minha filha J\u00falia",
-        "duracao": "7",
-        "personalizacao": "vela1",
-        "timestamp": 1745585061,
-        "reacoes": 2
-    },
-    {
         "id": 746,
         "nome": "Por mais caracteres no velinhas, pois no",
         "duracao": "7",
         "personalizacao": "vela1",
         "timestamp": 1745611791,
-        "reacoes": 3
+        "reacoes": 4
     },
     {
         "id": 750,
@@ -69,7 +45,7 @@
         "duracao": "7",
         "personalizacao": "#00ff00",
         "timestamp": 1745873099,
-        "reacoes": 0,
+        "reacoes": 1,
         "moderado": false
     },
     {
@@ -78,15 +54,7 @@
         "duracao": "7",
         "personalizacao": "vela0",
         "timestamp": 1745875764,
-        "reacoes": 1
-    },
-    {
-        "id": 766,
-        "nome": "QrCode do cliente",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745939606,
-        "reacoes": 1
+        "reacoes": 2
     },
     {
         "id": 767,
@@ -97,39 +65,29 @@
         "reacoes": 1
     },
     {
-        "id": 768,
-        "nome": "Testess",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745940754,
-        "reacoes": 0,
-        "moderado": true
-    },
-    {
-        "id": 769,
-        "nome": "Teste",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745940952,
-        "mensagem": "teste",
-        "reacoes": 0,
-        "moderado": true
-    },
-    {
-        "id": 770,
-        "nome": "Vela teste com mensagem",
-        "duracao": "1",
-        "personalizacao": "vela0",
-        "timestamp": 1745942082,
-        "mensagem": "Vela teste com mensagem",
-        "reacoes": 2
-    },
-    {
         "id": 771,
         "nome": "A paz no spick",
         "duracao": "7",
         "personalizacao": "vela3",
         "timestamp": 1745951923,
-        "reacoes": 5
+        "reacoes": 6
+    },
+    {
+        "id": 772,
+        "nome": "Meu sobrinho",
+        "duracao": "7",
+        "personalizacao": "vela1",
+        "timestamp": 1746024711,
+        "mensagem": "Velinha para meu sobrinho e toda minha familia",
+        "reacoes": 1
+    },
+    {
+        "id": 774,
+        "nome": "Ao mundo todo",
+        "duracao": "7",
+        "personalizacao": "vela2",
+        "timestamp": 1746204927,
+        "mensagem": "Vela dedicada a todos do planeta terra.",
+        "reacoes": 0
     }
 ]

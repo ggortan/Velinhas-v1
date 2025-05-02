@@ -228,7 +228,7 @@ require_once __DIR__ . '/includes/head.php';
                 </div>
                 
                 <!-- Criador -->
-                <div class="about-section">
+                <div class="about-section" id="criador">
                     <div class="about-header">
                         <h2><i class="fas fa-user candle-icon"></i> Criador</h2>
                     </div>

@@ -177,7 +177,7 @@ if (isset($_GET['valor']) && is_numeric($_GET['valor'])) {
       </div>
       <div class="modal-body">
         <div class="text-center mb-4">
-          <img src="/assets/img/vela.png" alt="Velinhas" height="60" class="mb-3">
+          <img src="/assets/img/vela-icon-128.png" alt="Velinhas" height="60" class="mb-3">
           <p>Ajude a manter as velinhas acesas com uma doação via PIX.</p>
         </div>
         
@@ -210,7 +210,7 @@ if (isset($_GET['valor']) && is_numeric($_GET['valor'])) {
           
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="pixCopyCola" readonly>
-            <button class="btn btn-outline-secondary" type="button" id="copiarPixBtn">
+            <button class="btn btn-outline-primary" type="button" id="copiarPixBtn">
               <i class="bi bi-clipboard"></i> Copiar
             </button>
           </div>
@@ -236,41 +236,11 @@ if (isset($_GET['valor']) && is_numeric($_GET['valor'])) {
                 </h2>
                 <div id="flush-collapseOne" class="accordion-collapse accordion-collapse-benefi collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                   <div class="accordion-body accordion-body-benefi">
-                    Gabriel Gortan é o desenvolvedor do Velinhas.com.br</br>Conhenha mais sobre em seu perfil no LinkedIn <a href="https://www.linkedin.com/in/gabrielgortan" target="_blank">aqui</a>
+                    Gabriel Gortan é o criador e desenvolvedor do Velinhas.com.br</br>Saiba mais em <a href="https://velinhas.com.br/sobre#criador" target="_blank">Sobre o Velinhas</a>
                   </div>
                 </div>
               </div>
             </div>
-            
-            <style>
-              /* Ajuste para o acordeão inteiro ser transparente */
-              .accordion-item-benefi {
-                background-color: transparent !important;
-              }
-              .accordion-button-benefi {
-                background-color: transparent !important;
-                color: var(--bs-text-color, #fff); /* Ajuste para usar a cor do tema */
-                border: 1px solid rgba(255, 255, 255, 0.2);
-              }
-            
-              .accordion-button-benefi:not(.collapsed) {
-                background-color: transparent !important;
-                color: var(--bs-text-color, #fff);
-              }
-            
-              .accordion-button-benefi:focus {
-                box-shadow: none;
-              }
-            
-              .accordion-collapse-benefi {
-                background-color: transparent !important;
-              }
-            
-              .accordion-body-benefi {
-                color: var(--bs-text-color, #fff); /* Cor do texto dentro do corpo */
-              }
-            </style>
-          
         </div>
       </div>
       <div class="modal-footer">
